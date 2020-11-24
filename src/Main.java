@@ -9,7 +9,7 @@ public class Main {
         StudentTable studentTable = StudentTable.getInstance();
         try {
             studentTable.createTable();
-            studentTable.insertStudentData(new StudentModel(26, "Rahul Badgujar", 96.2));
+            System.out.println(new StudentModel());
         } catch (ClassNotFoundException | SQLException e) {
             System.out.println(e.getMessage());
             e.printStackTrace();

@@ -33,9 +33,7 @@ public class StudentTable {
         Connector connector = Connector.getInstance();
         String sql = "INSERT INTO Students(roll_no, name, marks) VALUES(?,?,?);";
         PreparedStatement statement = connector.getConnection().prepareStatement(sql);
-        statement.setInt(1, student.getRollNo());
-        statement.setString(2, student.getName());
-        statement.setDouble(3, student.getMarks());
+
         statement.executeUpdate();
         return statement;
     }
