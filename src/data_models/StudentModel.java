@@ -1,5 +1,10 @@
 package data_models;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 public class StudentModel {
 
     public enum Branch {
@@ -132,12 +137,32 @@ public class StudentModel {
         this.email = "na@na.com";
     }
 
+    public static List<StudentModel> fromSqlResult(ResultSet result) throws SQLException {
+        List<StudentModel> students = new ArrayList<>();
+        while (result.next()) {
+            StudentModel student = new StudentModel();
+            student.setRollNo(result.getString(1));
+            student.setFullName(result.getString(2));
+            student.setDob(result.getString(3));
+            student.setAge(result.getInt(4));
+            student.setGender(Gender.valueOf(result.getString(5)));
+            student.setBranch(Branch.valueOf(result.getString(6)));
+            student.setYearOfStudy(YearOfStudy.valueOf(result.getString(7)));
+            student.setDivision(Division.valueOf(result.getString(8)));
+            student.setCGPA(result.getDouble(9));
+            student.setPhone(result.getString(10));
+            student.setEmail(result.getString(11));
+            students.add(student);
+        }
+        return students;
+    }
+
     @Override
     public String toString() {
         return "Roll No: " + this.rollno + "\n" + "Full Name: " + this.fullname + "\n" + "Date of Birth: "
                 + this.dateofbirth + "\n" + "Gender: " + this.gender + "\n" + "Age: " + this.age + "\n" + "Branch: "
                 + this.branch + "\n" + "Year of Study: " + this.yearOfStudy + "\n" + "Division: " + this.division + "\n"
-                + "CGPA: " + this.CGPA + "\n" + "Phone: " + this.phone + "\n" + "Email: " + this.email;
+                + "CGPA: " + this.CGPA + "\n" + "Phone: " + this.phone + "\n" + "Email: " + this.email + "\n";
     }
 
 }
