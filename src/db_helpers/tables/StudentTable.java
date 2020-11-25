@@ -68,4 +68,22 @@ public class StudentTable implements Table {
         return StudentModel.fromSqlResult(result);
 
     }
+
+    @Override
+    public boolean checkRecordExistance(Model model) throws SQLException, ClassNotFoundException {
+        if (model instanceof StudentModel) {
+            StudentModel student = (StudentModel) model;
+            Connector connector = Connector.getInstance();
+            String sql = "SELECT * FROM " + tableName + " WHERE " + StudentTableColumn.ROLL_NO + " = ? ;";
+            PreparedStatement statement = connector.getConnection().prepareStatement(sql);
+            statement.setString(1, student.getRollNo());
+            ResultSet result = statement.executeQuery();
+            int count = 0;
+            while (result.next())
+                count++;
+            return count > 0;
+        }
+        return false;
+    }
+
 }

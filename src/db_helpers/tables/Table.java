@@ -14,4 +14,6 @@ public interface Table {
     public PreparedStatement insertRecord(Model model) throws ClassNotFoundException, SQLException;
 
     public List<Model> queryAllRecords() throws ClassNotFoundException, SQLException;
+
+    public boolean checkRecordExistance(Model model) throws SQLException, ClassNotFoundException;
 }

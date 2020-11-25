@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import db_helpers.tables.StudentTable;
 
@@ -159,6 +160,35 @@ public class StudentModel implements Model {
             students.add(student);
         }
         return students;
+    }
+
+    public static Model fromUserInput() {
+        Scanner scanner = new Scanner(System.in);
+        StudentModel student = new StudentModel();
+
+        System.out.print("Enter Roll No: ");
+        student.rollno = scanner.nextLine();
+        System.out.print("Enter Full Name: ");
+        student.fullname = scanner.nextLine();
+        System.out.print("Enter Date of Birth (DD/MM/YYYY): ");
+        student.dateofbirth = scanner.nextLine();
+        System.out.print("Enter Gender (MALE/FEMALE/TRANS/NOT_DEFINED): ");
+        student.gender = Gender.valueOf(scanner.nextLine());
+        System.out.print("Enter Branch (IT/CS/ETC/CIVIL/MECH/NOT_DEFINED): ");
+        student.branch = Branch.valueOf(scanner.nextLine());
+        System.out.print("Enter Year of Study (FE/SE/TE/BE): ");
+        student.yearOfStudy = YearOfStudy.valueOf(scanner.nextLine());
+        System.out.print("Enter Division (A/B/C/D/NOT_DEFINED): ");
+        student.division = Division.valueOf(scanner.nextLine());
+        System.out.print("Enter Phone: ");
+        student.phone = scanner.nextLine();
+        System.out.print("Enter Email: ");
+        student.email = scanner.nextLine();
+        System.out.print("Enter CGPA: ");
+        student.CGPA = scanner.nextDouble();
+
+        scanner.close();
+        return student;
     }
 
     @Override

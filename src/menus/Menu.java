@@ -17,10 +17,11 @@ public abstract class Menu {
     }
 
     public void showMenu() {
+        System.out.println("   " + this.menuTitle);
         System.out.println(formMenuString());
     }
 
-    public int takeMenuInput() {
+    protected int takeMenuInput() {
         System.out.print("Enter Your Choice: ");
         int choice = scanner.nextInt();
         if (choice > 0 && choice <= optionsCount) {
@@ -29,7 +30,14 @@ public abstract class Menu {
         return 0;
     }
 
+    public void handleMenu() {
+        int choice = takeMenuInput();
+        actOnChoice(choice);
+    }
+
     public abstract List<String> formItemsList();
+
+    public abstract void actOnChoice(int choice);
 
     protected String formMenuString() {
         String menuStr = "";
