@@ -1,11 +1,15 @@
 package data_models;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StudentModel {
+import db_helpers.tables.StudentTable;
+
+public class StudentModel implements Model {
 
     public enum Branch {
         IT, CS, ETC, CIVIL, MECH, NOT_DEFINED
@@ -137,8 +141,8 @@ public class StudentModel {
         this.email = "na@na.com";
     }
 
-    public static List<StudentModel> fromSqlResult(ResultSet result) throws SQLException {
-        List<StudentModel> students = new ArrayList<>();
+    public static List<Model> fromSqlResult(ResultSet result) throws SQLException {
+        List<Model> students = new ArrayList<>();
         while (result.next()) {
             StudentModel student = new StudentModel();
             student.setRollNo(result.getString(1));
@@ -163,6 +167,33 @@ public class StudentModel {
                 + this.dateofbirth + "\n" + "Gender: " + this.gender + "\n" + "Age: " + this.age + "\n" + "Branch: "
                 + this.branch + "\n" + "Year of Study: " + this.yearOfStudy + "\n" + "Division: " + this.division + "\n"
                 + "CGPA: " + this.CGPA + "\n" + "Phone: " + this.phone + "\n" + "Email: " + this.email + "\n";
+    }
+
+    @Override
+    public PreparedStatement toSqlInsertStatement(Connection connection) throws SQLException, ClassNotFoundException {
+        String sql = "INSERT INTO Students(" + StudentTable.StudentTableColumn.ROLL_NO.toString() + ","
+                + StudentTable.StudentTableColumn.FULLNAME.toString() + ","
+                + StudentTable.StudentTableColumn.DOB.toString() + "," + StudentTable.StudentTableColumn.AGE.toString()
+                + "," + StudentTable.StudentTableColumn.GENDER.toString() + ","
+                + StudentTable.StudentTableColumn.BRANCH.toString() + ","
+                + StudentTable.StudentTableColumn.YEAR_OF_STUDY.toString() + ","
+                + StudentTable.StudentTableColumn.DIVISION.toString() + ","
+                + StudentTable.StudentTableColumn.CGPA.toString() + ","
+                + StudentTable.StudentTableColumn.PHONE.toString() + ","
+                + StudentTable.StudentTableColumn.EMAIL.toString() + ") VALUES(?,?,?,?,?,?,?,?,?,?,?);";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setString(1, this.rollno);
+        statement.setString(2, this.fullname);
+        statement.setString(3, this.dateofbirth);
+        statement.setInt(4, this.age);
+        statement.setString(5, this.gender.toString());
+        statement.setString(6, this.branch.toString());
+        statement.setString(7, this.yearOfStudy.toString());
+        statement.setString(8, this.division.toString());
+        statement.setDouble(9, this.CGPA);
+        statement.setString(10, this.phone);
+        statement.setString(11, this.email);
+        return statement;
     }
 
 }

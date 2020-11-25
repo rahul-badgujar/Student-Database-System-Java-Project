@@ -1,17 +1,17 @@
 import java.sql.SQLException;
 import java.util.List;
 
-import data_models.StudentModel;
+import data_models.Model;
 import db_helpers.tables.StudentTable;
 
 public class Main {
 
     public static void main(String[] args) {
-        StudentTable studentTable = StudentTable.getInstance();
+        var studentTable = StudentTable.getInstance();
         try {
             studentTable.createTable();
-            List<StudentModel> students = studentTable.queryAllStudents();
-            for (StudentModel student : students) {
+            List<Model> students = studentTable.queryAllRecords();
+            for (Model student : students) {
                 System.out.println(student);
             }
 

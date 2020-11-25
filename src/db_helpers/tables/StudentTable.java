@@ -6,10 +6,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
+import data_models.Model;
 import data_models.StudentModel;
 import db_helpers.Connector;
 
-public class StudentTable {
+public class StudentTable implements Table {
     static final String tableName = "Students";
 
     public enum StudentTableColumn {
@@ -19,7 +20,7 @@ public class StudentTable {
     private static StudentTable instance = null;
 
     private StudentTable() {
-
+        super();
     }
 
     public static StudentTable getInstance() {
@@ -28,6 +29,7 @@ public class StudentTable {
         return instance;
     }
 
+    @Override
     public Statement createTable() throws ClassNotFoundException, SQLException {
         Connector connector = Connector.getInstance();
         String sql = "CREATE TABLE IF NOT EXISTS " + tableName + " (\n" + StudentTableColumn.ROLL_NO
@@ -44,36 +46,26 @@ public class StudentTable {
         return statement;
     }
 
-    public PreparedStatement insertStudentData(StudentModel student) throws ClassNotFoundException, SQLException {
-        Connector connector = Connector.getInstance();
-        String sql = "INSERT INTO Students(" + StudentTableColumn.ROLL_NO.toString() + ","
-                + StudentTableColumn.FULLNAME.toString() + "," + StudentTableColumn.DOB.toString() + ","
-                + StudentTableColumn.AGE.toString() + "," + StudentTableColumn.GENDER.toString() + ","
-                + StudentTableColumn.BRANCH.toString() + "," + StudentTableColumn.YEAR_OF_STUDY.toString() + ","
-                + StudentTableColumn.DIVISION.toString() + "," + StudentTableColumn.CGPA.toString() + ","
-                + StudentTableColumn.PHONE.toString() + "," + StudentTableColumn.EMAIL.toString()
-                + ") VALUES(?,?,?,?,?,?,?,?,?,?,?);";
-        PreparedStatement statement = connector.getConnection().prepareStatement(sql);
-        statement.setString(1, student.getRollNo());
-        statement.setString(2, student.getFullName());
-        statement.setString(3, student.getDob());
-        statement.setInt(4, student.getAge());
-        statement.setString(5, student.getGender().toString());
-        statement.setString(6, student.getBranch().toString());
-        statement.setString(7, student.getYearOfStudy().toString());
-        statement.setString(8, student.getDivision().toString());
-        statement.setDouble(9, student.getCGPA());
-        statement.setString(10, student.getPhone());
-        statement.setString(11, student.getEmail());
-        statement.executeUpdate();
-        return statement;
+    @Override
+    public PreparedStatement insertRecord(Model model) throws ClassNotFoundException, SQLException {
+        if (model instanceof StudentModel) {
+            StudentModel student = (StudentModel) model;
+            Connector connector = Connector.getInstance();
+            PreparedStatement statement = student.toSqlInsertStatement(connector.getConnection());
+            statement.executeUpdate();
+            return statement;
+        }
+        return null;
     }
 
-    public List<StudentModel> queryAllStudents() throws ClassNotFoundException, SQLException {
+    @Override
+    public List<Model> queryAllRecords() throws ClassNotFoundException, SQLException {
+
         Connector connector = Connector.getInstance();
         String sql = "SELECT * FROM " + tableName + ";";
         Statement statement = connector.getConnection().createStatement();
         ResultSet result = statement.executeQuery(sql);
         return StudentModel.fromSqlResult(result);
+
     }
 }
