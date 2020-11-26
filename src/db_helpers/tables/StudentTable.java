@@ -94,4 +94,12 @@ public class StudentTable implements Table {
         ResultSet result = statement.executeQuery();
         return StudentModel.fromSqlResult(result);
     }
+
+    public boolean deleteStudentDataUsingRollNo(String rollno) throws ClassNotFoundException, SQLException {
+        Connector connector = Connector.getInstance();
+        String sql = "DELETE FROM " + tableName + " WHERE " + StudentTableColumn.ROLL_NO + " = ? ;";
+        PreparedStatement statement = connector.getConnection().prepareStatement(sql);
+        statement.setString(1, rollno);
+        return statement.executeUpdate() != 0;
+    }
 }

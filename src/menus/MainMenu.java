@@ -15,8 +15,8 @@ public class MainMenu extends Menu {
     public static final String MENU_TITLE = "Main Menu";
     private static final int CHOICE_ADD_STUDENT = 1;
     private static final int CHOICE_SEARCH_STUDENT = 2;
-    private static final int CHOICE_DELETE_STUDENT = 3;
-    private static final int CHOICE_UPDATE_STUDENT = 4;
+    private static final int CHOICE_DELETE_STUDENT = 4;
+    private static final int CHOICE_UPDATE_STUDENT = 3;
     private static final int CHOICE_LIST_ALL = 5;
     private static final int CHOICE_EXIT = 6;
 
@@ -33,8 +33,8 @@ public class MainMenu extends Menu {
         List<String> items = new ArrayList<>();
         items.add("Add Student Record");
         items.add("Search Student Record");
-        items.add("Delete Student Record");
         items.add("Update Student Record");
+        items.add("Delete Student Record");
         items.add("List All Students");
         items.add("Exit");
         return items;
@@ -49,6 +49,8 @@ public class MainMenu extends Menu {
             choiceSearchStudentCallback();
         } else if (choice == CHOICE_LIST_ALL) {
             choiceListAllStudentsCallback();
+        } else if (choice == CHOICE_DELETE_STUDENT) {
+            choiceDeleteStudentCallback();
         } else {
             System.out.println("Choice made: " + choice);
         }
@@ -114,6 +116,25 @@ public class MainMenu extends Menu {
             e.printStackTrace();
         }
 
+    }
+
+    private void choiceDeleteStudentCallback() {
+        StudentTable studentTable = StudentTable.getInstance();
+        System.out.print("Enter Roll No of Student to Delete Record: ");
+        Scanner scanner = Utils.getInstance().scanner;
+        String rollToDelete = scanner.next();
+        try {
+            boolean recordDeleted = studentTable.deleteStudentDataUsingRollNo(rollToDelete);
+            if (recordDeleted) {
+                System.out.println("STUDENT RECORD DELETED SUCCESSFULLY...");
+            } else {
+                System.out.println("NO SUCH STUDENT RECORD EXIST ALREADY...");
+            }
+        } catch (ClassNotFoundException | SQLException e) {
+            System.out.println("Exception caught in MainMenu.choiceSearchStudentCallback()");
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
     }
 
 }
