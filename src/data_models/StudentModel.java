@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import db_helpers.tables.StudentTable;
+import utils.Utils;
 
 public class StudentModel implements Model {
 
@@ -163,7 +164,7 @@ public class StudentModel implements Model {
     }
 
     public static Model fromUserInput() {
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner = Utils.getInstance().scanner;
         StudentModel student = new StudentModel();
 
         System.out.print("Enter Roll No: ");
@@ -187,7 +188,6 @@ public class StudentModel implements Model {
         System.out.print("Enter CGPA: ");
         student.CGPA = scanner.nextDouble();
 
-        scanner.close();
         return student;
     }
 

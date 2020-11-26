@@ -3,8 +3,10 @@ package menus;
 import java.util.List;
 import java.util.Scanner;
 
+import jdk.jshell.execution.Util;
+import utils.Utils;
+
 public abstract class Menu {
-    protected Scanner scanner;
     protected String menuTitle;
     protected List<String> menuItems;
     protected int optionsCount;
@@ -13,7 +15,6 @@ public abstract class Menu {
         this.menuTitle = menuTitle;
         this.menuItems = null;
         this.optionsCount = 0;
-        scanner = new Scanner(System.in);
     }
 
     public void showMenu() {
@@ -22,6 +23,7 @@ public abstract class Menu {
     }
 
     protected int takeMenuInput() {
+        Scanner scanner = Utils.getInstance().scanner;
         System.out.print("Enter Your Choice: ");
         int choice = scanner.nextInt();
         if (choice > 0 && choice <= optionsCount) {

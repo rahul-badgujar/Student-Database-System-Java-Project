@@ -86,4 +86,12 @@ public class StudentTable implements Table {
         return false;
     }
 
+    public List<Model> retrieveStudentDataUsingRollNo(String rollno) throws SQLException, ClassNotFoundException {
+        Connector connector = Connector.getInstance();
+        String sql = "SELECT * FROM " + tableName + " WHERE " + StudentTableColumn.ROLL_NO + " = ? ;";
+        PreparedStatement statement = connector.getConnection().prepareStatement(sql);
+        statement.setString(1, rollno);
+        ResultSet result = statement.executeQuery();
+        return StudentModel.fromSqlResult(result);
+    }
 }

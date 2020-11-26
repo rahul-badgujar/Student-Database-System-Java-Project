@@ -1,7 +1,4 @@
-import java.sql.SQLException;
 
-import data_models.StudentModel;
-import db_helpers.tables.StudentTable;
 import menus.MainMenu;
 import menus.Menu;
 
