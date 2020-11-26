@@ -10,16 +10,21 @@ public abstract class Menu {
     protected String menuTitle;
     protected List<String> menuItems;
     protected int optionsCount;
+    protected boolean isLive;
 
     protected Menu(String menuTitle) {
         this.menuTitle = menuTitle;
         this.menuItems = null;
         this.optionsCount = 0;
+        this.isLive = true;
     }
 
     public void showMenu() {
-        System.out.println("   " + this.menuTitle);
-        System.out.println(formMenuString());
+        while (this.isLive) {
+            System.out.println("   " + this.menuTitle);
+            System.out.println(formMenuString());
+            handleMenu();
+        }
     }
 
     protected Integer takeMenuInput() {
@@ -50,5 +55,9 @@ public abstract class Menu {
             }
         }
         return menuStr;
+    }
+
+    protected void closeMenu() {
+        this.isLive = false;
     }
 }

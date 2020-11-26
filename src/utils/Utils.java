@@ -17,4 +17,15 @@ public class Utils {
         return instance;
     }
 
+    public void releaseResouces() {
+        if (scanner != null) {
+            scanner.close();
+        }
+    }
+
+    static public void clearScreen() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
+
 }

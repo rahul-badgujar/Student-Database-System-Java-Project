@@ -53,6 +53,8 @@ public class MainMenu extends Menu {
             choiceDeleteStudentCallback();
         } else if (choice == CHOICE_UPDATE_STUDENT) {
             choiceUpdateStudentCallback();
+        } else if (choice == CHOICE_EXIT) {
+            closeMenu();
         } else {
             System.out.println("Choice made: " + choice);
         }
