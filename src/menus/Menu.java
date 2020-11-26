@@ -22,10 +22,10 @@ public abstract class Menu {
         System.out.println(formMenuString());
     }
 
-    protected int takeMenuInput() {
+    protected Integer takeMenuInput() {
         Scanner scanner = Utils.getInstance().scanner;
         System.out.print("Enter Your Choice: ");
-        int choice = scanner.nextInt();
+        Integer choice = Integer.valueOf(scanner.nextLine());
         if (choice > 0 && choice <= optionsCount) {
             return choice;
         }
@@ -39,7 +39,7 @@ public abstract class Menu {
 
     public abstract List<String> formItemsList();
 
-    public abstract void actOnChoice(int choice);
+    public abstract void actOnChoice(Integer choice);
 
     protected String formMenuString() {
         String menuStr = "";

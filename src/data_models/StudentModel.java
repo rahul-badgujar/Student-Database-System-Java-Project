@@ -173,6 +173,8 @@ public class StudentModel implements Model {
         student.fullname = scanner.nextLine();
         System.out.print("Enter Date of Birth (DD/MM/YYYY): ");
         student.dateofbirth = scanner.nextLine();
+        System.out.print("Enter Age: ");
+        student.age = Integer.valueOf(scanner.nextLine());
         System.out.print("Enter Gender (MALE/FEMALE/TRANS/NOT_DEFINED): ");
         student.gender = Gender.valueOf(scanner.nextLine());
         System.out.print("Enter Branch (IT/CS/ETC/CIVIL/MECH/NOT_DEFINED): ");
@@ -186,7 +188,36 @@ public class StudentModel implements Model {
         System.out.print("Enter Email: ");
         student.email = scanner.nextLine();
         System.out.print("Enter CGPA: ");
-        student.CGPA = scanner.nextDouble();
+        student.CGPA = Double.valueOf(scanner.nextLine());
+
+        return student;
+    }
+
+    public static Model fromUserUpdateRequestInput(String rollno) {
+        Scanner scanner = Utils.getInstance().scanner;
+        StudentModel student = new StudentModel();
+
+        student.rollno = rollno;
+        System.out.print("Enter Full Name: ");
+        student.fullname = scanner.nextLine();
+        System.out.print("Enter Date of Birth (DD/MM/YYYY): ");
+        student.dateofbirth = scanner.nextLine();
+        System.out.print("Enter Age: ");
+        student.age = Integer.valueOf(scanner.nextLine());
+        System.out.print("Enter Gender (MALE/FEMALE/TRANS/NOT_DEFINED): ");
+        student.gender = Gender.valueOf(scanner.nextLine());
+        System.out.print("Enter Branch (IT/CS/ETC/CIVIL/MECH/NOT_DEFINED): ");
+        student.branch = Branch.valueOf(scanner.nextLine());
+        System.out.print("Enter Year of Study (FE/SE/TE/BE): ");
+        student.yearOfStudy = YearOfStudy.valueOf(scanner.nextLine());
+        System.out.print("Enter Division (A/B/C/D/NOT_DEFINED): ");
+        student.division = Division.valueOf(scanner.nextLine());
+        System.out.print("Enter Phone: ");
+        student.phone = scanner.nextLine();
+        System.out.print("Enter Email: ");
+        student.email = scanner.nextLine();
+        System.out.print("Enter CGPA: ");
+        student.CGPA = Double.valueOf(scanner.nextLine());
 
         return student;
     }

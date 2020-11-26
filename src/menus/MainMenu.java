@@ -41,7 +41,7 @@ public class MainMenu extends Menu {
     }
 
     @Override
-    public void actOnChoice(int choice) {
+    public void actOnChoice(Integer choice) {
 
         if (choice == CHOICE_ADD_STUDENT) {
             choiceAddStudentCallback();
@@ -51,6 +51,8 @@ public class MainMenu extends Menu {
             choiceListAllStudentsCallback();
         } else if (choice == CHOICE_DELETE_STUDENT) {
             choiceDeleteStudentCallback();
+        } else if (choice == CHOICE_UPDATE_STUDENT) {
+            choiceUpdateStudentCallback();
         } else {
             System.out.println("Choice made: " + choice);
         }
@@ -137,4 +139,31 @@ public class MainMenu extends Menu {
         }
     }
 
+    private void choiceUpdateStudentCallback() {
+        StudentTable studentTable = StudentTable.getInstance();
+        Scanner scanner = Utils.getInstance().scanner;
+        System.out.print("Enter Roll No of Student to Update Record: ");
+        String rollToUpdate = scanner.nextLine();
+        try {
+            List<Model> studentsFound = studentTable.retrieveStudentDataUsingRollNo(rollToUpdate);
+            if (studentsFound.isEmpty()) {
+                System.out.println("NO SUCH STUDENT RECORD EXIST ALREADY...");
+                return;
+            }
+            System.out.println("CURRENT STUDENT RECORD");
+            System.out.println(studentsFound.get(0));
+            System.out.println("PLEASE FILL IN UPDATED STUDENT RECORD for Roll No: " + rollToUpdate);
+            Model studentToUpdate = StudentModel.fromUserUpdateRequestInput(rollToUpdate);
+            boolean recordUpdated = studentTable.updateStudentData(studentToUpdate);
+            if (recordUpdated) {
+                System.out.println("STUDENT RECORD UPDATED SUCCESSFULLY...");
+            } else {
+                System.out.println("NO SUCH STUDENT RECORD EXIST ALREADY...");
+            }
+        } catch (ClassNotFoundException | SQLException e) {
+            System.out.println("Exception caught in MainMenu.choiceSearchStudentCallback()");
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+    }
 }

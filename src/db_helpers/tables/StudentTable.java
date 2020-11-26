@@ -102,4 +102,32 @@ public class StudentTable implements Table {
         statement.setString(1, rollno);
         return statement.executeUpdate() != 0;
     }
+
+    public boolean updateStudentData(Model model) throws ClassNotFoundException, SQLException {
+        if (model instanceof StudentModel) {
+            Connector connector = Connector.getInstance();
+            StudentModel student = (StudentModel) model;
+            String sql = "UPDATE " + StudentTable.tableName + " SET " + StudentTableColumn.FULLNAME.toString()
+                    + " = ? ," + StudentTableColumn.DOB.toString() + " = ? ," + StudentTableColumn.AGE.toString()
+                    + " = ? ," + StudentTableColumn.GENDER.toString() + " = ? ," + StudentTableColumn.BRANCH.toString()
+                    + " = ? ," + StudentTableColumn.YEAR_OF_STUDY.toString() + " = ? ,"
+                    + StudentTableColumn.DIVISION.toString() + " = ? ," + StudentTableColumn.PHONE.toString() + " = ? ,"
+                    + StudentTableColumn.EMAIL.toString() + " = ? ," + StudentTableColumn.CGPA.toString() + " = ? "
+                    + " WHERE " + StudentTableColumn.ROLL_NO + " = ? ;";
+            PreparedStatement statement = connector.getConnection().prepareStatement(sql);
+            statement.setString(1, student.getFullName());
+            statement.setString(2, student.getDob());
+            statement.setInt(3, student.getAge());
+            statement.setString(4, student.getGender().toString());
+            statement.setString(5, student.getBranch().toString());
+            statement.setString(6, student.getYearOfStudy().toString());
+            statement.setString(7, student.getDivision().toString());
+            statement.setString(8, student.getPhone());
+            statement.setString(9, student.getEmail());
+            statement.setDouble(10, student.getCGPA());
+            statement.setString(11, student.getRollNo());
+            return statement.executeUpdate() != 0;
+        }
+        return false;
+    }
 }
