@@ -4,8 +4,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.function.*;
-
 import data_models.Model;
 import data_models.StudentModel;
 import db_helpers.tables.StudentTable;
@@ -42,7 +40,7 @@ public class MainMenu extends Menu {
 
     @Override
     public void actOnChoice(Integer choice) {
-
+        Utils.clearScreen();
         if (choice == CHOICE_ADD_STUDENT) {
             choiceAddStudentCallback();
         } else if (choice == CHOICE_SEARCH_STUDENT) {
@@ -63,15 +61,15 @@ public class MainMenu extends Menu {
 
     private void choiceAddStudentCallback() {
         StudentTable studentTable = StudentTable.getInstance();
-        System.out.println("FILL STUDENT DETAILS");
+        System.out.println("\tFILL STUDENT DETAILS \n");
         Model student = StudentModel.fromUserInput();
         try {
-            if (studentTable.checkRecordExistance(student) == false) {
+            if (!studentTable.checkRecordExistance(student)) {
                 studentTable.insertRecord(student);
                 System.out.println("Student Record Inserted Successfully...");
             } else {
                 System.out.println(
-                        "Cannot Insert Student Record: Student Record already present in Database. Try Updating Data instead.");
+                        "Cannot Insert Student Record: Student Record already present in Database. Try Updating Record instead.");
             }
         } catch (ClassNotFoundException | SQLException e) {
             System.out.println("Exception caught in MainMenu.choiceAddStudentCallback()");
@@ -84,13 +82,13 @@ public class MainMenu extends Menu {
         StudentTable studentTable = StudentTable.getInstance();
         System.out.print("Enter Roll No to Search: ");
         Scanner scanner = Utils.getInstance().scanner;
-        String rollToSearch = scanner.next();
+        String rollToSearch = scanner.nextLine();
         try {
             List<Model> studentsFound = studentTable.retrieveStudentDataUsingRollNo(rollToSearch);
             if (studentsFound.isEmpty()) {
                 System.out.println("No Student Record FOUND with this Roll No...");
             } else {
-                System.out.println("RECORDS FOUND...");
+                System.out.println("RECORD(s) FOUND...");
                 for (Model student : studentsFound) {
                     System.out.println(student);
                 }
@@ -104,14 +102,17 @@ public class MainMenu extends Menu {
 
     private void choiceListAllStudentsCallback() {
         StudentTable studentTable = StudentTable.getInstance();
-        System.out.println("ALL STUDENTS RECORD");
+        System.out.println("\tALL STUDENTS RECORD \n");
         try {
             List<Model> allStudents = studentTable.queryAllRecords();
             if (allStudents.isEmpty()) {
                 System.out.print("Nothing to show, consider adding some Records");
             } else {
-                for (Model student : allStudents) {
-                    System.out.println(student);
+                for (int i = 0; i < allStudents.size(); i++) {
+                    StudentModel student = (StudentModel) allStudents.get(i);
+                    System.out.printf("%d. %s, %s-%s-%s [%s]", i + 1, student.getFullName(),
+                            student.getBranch().toString(), student.getYearOfStudy().toString(),
+                            student.getDivision().toString(), student.getRollNo()).println();
                 }
             }
         } catch (ClassNotFoundException | SQLException e) {
@@ -152,9 +153,9 @@ public class MainMenu extends Menu {
                 System.out.println("NO SUCH STUDENT RECORD EXIST ALREADY...");
                 return;
             }
-            System.out.println("CURRENT STUDENT RECORD");
+            System.out.println("\tCURRENT STUDENT RECORD");
             System.out.println(studentsFound.get(0));
-            System.out.println("PLEASE FILL IN UPDATED STUDENT RECORD for Roll No: " + rollToUpdate);
+            System.out.println("\tPLEASE FILL IN UPDATED STUDENT RECORD for Roll No: " + rollToUpdate);
             Model studentToUpdate = StudentModel.fromUserUpdateRequestInput(rollToUpdate);
             boolean recordUpdated = studentTable.updateStudentData(studentToUpdate);
             if (recordUpdated) {

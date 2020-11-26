@@ -23,9 +23,17 @@ public class Utils {
         }
     }
 
-    static public void clearScreen() {
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
+    public static void clearScreen() {
+        try {
+            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+        } catch (final Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void waitForKeypress() {
+        System.out.print("\nPress ENTER to continue... ");
+        Utils.getInstance().scanner.nextLine();
     }
 
 }

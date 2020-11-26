@@ -1,4 +1,5 @@
 
+import db_helpers.Connector;
 import menus.MainMenu;
 import menus.Menu;
 import utils.Utils;
@@ -10,6 +11,7 @@ public class Main {
         Menu mainMenu = new MainMenu();
         mainMenu.showMenu();
         Utils.getInstance().releaseResouces();
+        Connector.getInstance().releaseResources();
     }
 
 }

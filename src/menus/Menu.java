@@ -2,8 +2,6 @@ package menus;
 
 import java.util.List;
 import java.util.Scanner;
-
-import jdk.jshell.execution.Util;
 import utils.Utils;
 
 public abstract class Menu {
@@ -21,9 +19,12 @@ public abstract class Menu {
 
     public void showMenu() {
         while (this.isLive) {
-            System.out.println("   " + this.menuTitle);
+            Utils.clearScreen();
+            System.out.println("\t" + this.menuTitle);
             System.out.println(formMenuString());
             handleMenu();
+            if (this.isLive)
+                Utils.waitForKeypress();
         }
     }
 

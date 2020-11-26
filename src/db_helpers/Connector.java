@@ -15,6 +15,18 @@ public class Connector {
 
     }
 
+    public void releaseResources() {
+        if (connection != null) {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                System.out.println("Exception caught in Connector.releaseResources()");
+                System.out.println(e.getMessage());
+                e.printStackTrace();
+            }
+        }
+    }
+
     public static Connector getInstance() {
         if (instance == null)
             instance = new Connector();
@@ -25,6 +37,7 @@ public class Connector {
         if (connection == null) {
             Class.forName("org.sqlite.JDBC");
             connection = DriverManager.getConnection("jdbc:sqlite:database/students_data.db");
+
         }
         return connection;
     }
