@@ -5,6 +5,8 @@ import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import utils.Utils;
+
 public class Connector {
     public static final String url = "jdbc:sqlite:database/students_data.db";
     private static Connector instance = null;
@@ -20,8 +22,8 @@ public class Connector {
             try {
                 connection.close();
             } catch (SQLException e) {
-                System.out.println("Exception caught in Connector.releaseResources()");
-                System.out.println(e.getMessage());
+                Utils.printlnException("Exception caught in Connector.releaseResources()");
+                Utils.printlnException(e.getMessage());
                 e.printStackTrace();
             }
         }

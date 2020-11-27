@@ -66,14 +66,14 @@ public class MainMenu extends Menu {
         try {
             if (!studentTable.checkRecordExistance(student)) {
                 studentTable.insertRecord(student);
-                System.out.println("Student Record Inserted Successfully...");
+                Utils.printlnSuccess("Student Record Inserted Successfully...");
             } else {
-                System.out.println(
+                Utils.printlnError(
                         "Cannot Insert Student Record: Student Record already present in Database. Try Updating Record instead.");
             }
         } catch (ClassNotFoundException | SQLException e) {
-            System.out.println("Exception caught in MainMenu.choiceAddStudentCallback()");
-            System.out.println(e.getMessage());
+            Utils.printlnException("Exception caught in MainMenu.choiceAddStudentCallback()");
+            Utils.printlnException(e.getMessage());
             e.printStackTrace();
         }
     }
@@ -86,16 +86,16 @@ public class MainMenu extends Menu {
         try {
             List<Model> studentsFound = studentTable.retrieveStudentDataUsingRollNo(rollToSearch);
             if (studentsFound.isEmpty()) {
-                System.out.println("No Student Record FOUND with this Roll No...");
+                Utils.printlnError("No Student Record FOUND with this Roll No...");
             } else {
-                System.out.println("RECORD(s) FOUND...");
+                Utils.printlnSuccess("RECORD(s) FOUND...");
                 for (Model student : studentsFound) {
                     System.out.println(student);
                 }
             }
         } catch (ClassNotFoundException | SQLException e) {
-            System.out.println("Exception caught in MainMenu.choiceSearchStudentCallback()");
-            System.out.println(e.getMessage());
+            Utils.printlnException("Exception caught in MainMenu.choiceSearchStudentCallback()");
+            Utils.printlnException(e.getMessage());
             e.printStackTrace();
         }
     }
@@ -106,7 +106,7 @@ public class MainMenu extends Menu {
         try {
             List<Model> allStudents = studentTable.queryAllRecords();
             if (allStudents.isEmpty()) {
-                System.out.print("Nothing to show, consider adding some Records");
+                Utils.printlnError("Nothing to show, consider adding some Records");
             } else {
                 for (int i = 0; i < allStudents.size(); i++) {
                     StudentModel student = (StudentModel) allStudents.get(i);
@@ -116,8 +116,8 @@ public class MainMenu extends Menu {
                 }
             }
         } catch (ClassNotFoundException | SQLException e) {
-            System.out.println("Exception caught in MainMenu.choiceListAllStudentsCallback()");
-            System.out.println(e.getMessage());
+            Utils.printlnException("Exception caught in MainMenu.choiceListAllStudentsCallback()");
+            Utils.printlnException(e.getMessage());
             e.printStackTrace();
         }
 
@@ -131,13 +131,13 @@ public class MainMenu extends Menu {
         try {
             boolean recordDeleted = studentTable.deleteStudentDataUsingRollNo(rollToDelete);
             if (recordDeleted) {
-                System.out.println("STUDENT RECORD DELETED SUCCESSFULLY...");
+                Utils.printlnSuccess("STUDENT RECORD DELETED SUCCESSFULLY...");
             } else {
-                System.out.println("NO SUCH STUDENT RECORD EXIST ALREADY...");
+                Utils.printlnError("NO SUCH STUDENT RECORD EXIST ALREADY...");
             }
         } catch (ClassNotFoundException | SQLException e) {
-            System.out.println("Exception caught in MainMenu.choiceSearchStudentCallback()");
-            System.out.println(e.getMessage());
+            Utils.printlnException("Exception caught in MainMenu.choiceDeleteStudentCallback()");
+            Utils.printlnException(e.getMessage());
             e.printStackTrace();
         }
     }
@@ -150,7 +150,7 @@ public class MainMenu extends Menu {
         try {
             List<Model> studentsFound = studentTable.retrieveStudentDataUsingRollNo(rollToUpdate);
             if (studentsFound.isEmpty()) {
-                System.out.println("NO SUCH STUDENT RECORD EXIST ALREADY...");
+                Utils.printlnError("NO SUCH STUDENT RECORD EXIST ALREADY...");
                 return;
             }
             System.out.println("\tCURRENT STUDENT RECORD");
@@ -159,13 +159,13 @@ public class MainMenu extends Menu {
             Model studentToUpdate = StudentModel.fromUserUpdateRequestInput(rollToUpdate);
             boolean recordUpdated = studentTable.updateStudentData(studentToUpdate);
             if (recordUpdated) {
-                System.out.println("STUDENT RECORD UPDATED SUCCESSFULLY...");
+                Utils.printlnSuccess("STUDENT RECORD UPDATED SUCCESSFULLY...");
             } else {
-                System.out.println("NO SUCH STUDENT RECORD EXIST ALREADY...");
+                Utils.printlnError("NO SUCH STUDENT RECORD EXIST ALREADY...");
             }
         } catch (ClassNotFoundException | SQLException e) {
-            System.out.println("Exception caught in MainMenu.choiceSearchStudentCallback()");
-            System.out.println(e.getMessage());
+            Utils.printlnException("Exception caught in MainMenu.choiceUpdateStudentCallback()");
+            Utils.printlnException(e.getMessage());
             e.printStackTrace();
         }
     }
