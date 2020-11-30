@@ -9,6 +9,7 @@ import java.util.List;
 import data_models.Model;
 import data_models.StudentModel;
 import db_helpers.Connector;
+import utils.Utils;
 
 public class StudentTable implements Table {
     static final String tableName = "Students";
@@ -21,6 +22,13 @@ public class StudentTable implements Table {
 
     private StudentTable() {
         super();
+        try {
+            createTable();
+        } catch (ClassNotFoundException | SQLException e) {
+            Utils.printError(tableName + " could not be created");
+            e.printStackTrace();
+            System.exit(-1);
+        }
     }
 
     public static StudentTable getInstance() {
