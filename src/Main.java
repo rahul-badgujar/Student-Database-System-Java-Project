@@ -1,6 +1,4 @@
 
-import java.sql.SQLException;
-
 import db_helpers.Connector;
 import menus.MainMenu;
 import menus.Menu;
